@@ -11,15 +11,15 @@ const loaderRef = document.querySelector('.loader');
 
 btnRef.addEventListener('click', onButtonSubmit);
 
-function onButtonSubmit(e) {
+async function onButtonSubmit(e) {
   e.preventDefault();
   const value = inputRef.value.trim();
   if (!value) return;
   loaderRef.classList.add('is-shown');
   formRef.reset();
   try {
-    const photos = getPhotos(value);
-    if (!photos.data.hits.length) {
+    const photos = await getPhotos(value);
+    if (photos.length === 0) {
       iziToast.error({
         title: 'Sorry',
         message:
@@ -28,7 +28,7 @@ function onButtonSubmit(e) {
       });
     } else {
       loaderRef.classList.remove('is-shown');
-      photoTemplate(photo);
+      photoTemplate(photos);
       renderPhotos(photos.data.hits);
     }
   } catch (error) {
