@@ -9,6 +9,10 @@ const btnRef = document.querySelector('button[type="submit"]');
 const formRef = document.querySelector('.js-form');
 const loaderRef = document.querySelector('.loader');
 
+let currentPage = 1;
+let totalResults = 0;
+const pageSize = 15;
+
 btnRef.addEventListener('click', onButtonSubmit);
 
 async function onButtonSubmit(e) {
@@ -28,8 +32,9 @@ async function onButtonSubmit(e) {
       });
     } else {
       loaderRef.classList.remove('is-shown');
+      currentPage = 1;
       photoTemplate(photos);
-      renderPhotos(photos.data.hits);
+      renderPhotos(photos);
     }
   } catch (error) {
     console.error('Error:', error);

@@ -23,6 +23,10 @@ button {
   cursor: pointer;
 }
 
+.load {
+  justify-content: center;
+}
+
 button:hover {
   background-color: #0056b3;
 }
@@ -67,4 +71,10 @@ button:hover {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
