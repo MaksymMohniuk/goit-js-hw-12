@@ -1,6 +1,7 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import { galleryRef } from './js/render-functions';
+import { totalResults } from './js/pixabay-api';
 import { getPhotos } from './js/pixabay-api';
 import { photoTemplate } from './js/render-functions';
 import { renderPhotos } from './js/render-functions';
@@ -12,7 +13,6 @@ const loaderRef = document.querySelector('.loader');
 const loadMoreRef = document.querySelector('.load');
 let query = '';
 let currentPage = 1;
-let totalResults = 0;
 const pageSize = 15;
 
 btnRef.addEventListener('click', onButtonSubmit);
@@ -27,7 +27,7 @@ async function onButtonSubmit(e) {
   formRef.reset();
   try {
     const photos = await getPhotos(query);
-    if (photos.length === 0) {
+    if (!photos.length) {
       iziToast.error({
         title: 'Sorry',
         message:
@@ -39,10 +39,12 @@ async function onButtonSubmit(e) {
       currentPage = 1;
       photoTemplate(photos);
       renderPhotos(photos);
+      loadMoreRef.classList.remove('hidden');
     }
   } catch (error) {
     console.error('Error:', error);
   }
+  checkBtnStatus();
 }
 
 async function onLoadMoreClick() {
@@ -50,4 +52,20 @@ async function onLoadMoreClick() {
   const photos = await getPhotos(query, currentPage);
   photoTemplate(photos);
   renderPhotos(photos);
+  checkBtnStatus();
+}
+
+function checkBtnStatus() {
+  const maxPage = Math.ceil(totalResults / pageSize);
+  const isLastPage = maxPage <= currentPage;
+  if (isLastPage) {
+    loadMoreRef.classList.add('hidden');
+    iziToast.error({
+      title: 'Sorry',
+      message: "We're sorry, but you've reached the end of search results.",
+      position: 'topRight',
+    });
+  } else {
+    loadMoreRef.classList.remove('hidden');
+  }
 }
