@@ -1,7 +1,7 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const galleryRef = document.querySelector('.gallery');
+export const galleryRef = document.querySelector('.gallery');
 let lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
@@ -23,8 +23,7 @@ export function photoTemplate(photo) {
 }
 
 export function renderPhotos(photos) {
-  galleryRef.innerHTML = '';
   const markup = photos.map(photo => photoTemplate(photo)).join('');
-  galleryRef.innerHTML = markup;
+  galleryRef.insertAdjacentHTML('beforeend', markup);
   lightbox.refresh();
 }

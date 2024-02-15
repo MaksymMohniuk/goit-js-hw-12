@@ -1,5 +1,6 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+import { galleryRef } from './js/render-functions';
 import { getPhotos } from './js/pixabay-api';
 import { photoTemplate } from './js/render-functions';
 import { renderPhotos } from './js/render-functions';
@@ -22,6 +23,7 @@ async function onButtonSubmit(e) {
   query = inputRef.value.trim();
   if (!query) return;
   loaderRef.classList.add('is-shown');
+  galleryRef.innerHTML = '';
   formRef.reset();
   try {
     const photos = await getPhotos(query);
@@ -45,8 +47,7 @@ async function onButtonSubmit(e) {
 
 async function onLoadMoreClick() {
   currentPage += 1;
-  const photos = await getPhotos(query);
-  console.log(photos);
+  const photos = await getPhotos(query, currentPage);
   photoTemplate(photos);
   renderPhotos(photos);
 }
