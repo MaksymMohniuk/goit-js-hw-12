@@ -54,7 +54,7 @@ async function onLoadMoreClick() {
   renderPhotos(photos);
   checkBtnStatus();
   window.scrollBy({
-    top: 378,
+    top: galleryRef.firstElementChild.getBoundingClientRect().height * 2,
     behavior: 'smooth',
   });
 }
