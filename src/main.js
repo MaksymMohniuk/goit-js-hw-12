@@ -53,6 +53,10 @@ async function onLoadMoreClick() {
   photoTemplate(photos);
   renderPhotos(photos);
   checkBtnStatus();
+  window.scrollBy({
+    top: 378,
+    behavior: 'smooth',
+  });
 }
 
 function checkBtnStatus() {
