@@ -34,6 +34,7 @@ async function onButtonSubmit(e) {
           'There are no images matching your search query. Please try again!',
         position: 'topRight',
       });
+      loaderRef.classList.remove('is-shown');
     } else {
       loaderRef.classList.remove('is-shown');
       currentPage = 1;
